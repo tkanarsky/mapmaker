@@ -148,7 +148,7 @@ if __name__ == "__main__":
         asteroids = random_asteroid_strikes(num_strikes, mars_height, mars_width, karbonite_range)
 
         filename = input("Almost done! Give your map a name: ")
-        filename += ".bc18"
+        filename += ".bc18map"
         print("Creating json...")
         json_struct = create_json(seed, earth_height, earth_width, earth_terrain, earth_karbonite, bots, mars_width,
                                   mars_height, mars_terrain, mars_karbonite, asteroids, orbit_params)
