@@ -28,7 +28,6 @@ def draw_lines(screen, height, width):
         pygame.draw.line(screen, [255, 255, 255], [i * TILE_SIZE, 0], [i * TILE_SIZE, height * TILE_SIZE], 1)
     pygame.display.flip()
 
-
 def create_pygame_earth_editor(height, width):
     terrain = [[True for _ in range(width)] for _ in range(height)]
     robot_positions = []
@@ -45,13 +44,15 @@ def create_pygame_earth_editor(height, width):
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
                         coords = get_grid_coords_from_mouse(event.pos[0], event.pos[1], height, width)
-                        terrain[coords[0]][coords[1]] = False
-                        karbonite[coords[0]][coords[1]] = 0
-                        pygame.draw.rect(screen, [0, 0, 255],
-                                         pygame.Rect(coords[1] * TILE_SIZE, coords[0] * TILE_SIZE, TILE_SIZE,
-                                                     TILE_SIZE), 0)
-                        draw_bots(screen, robot_positions)
-                        draw_lines(screen, height, width)
+                        if list(coords) not in [x[:2] for x in robot_positions]:
+
+                            terrain[coords[0]][coords[1]] = False
+                            karbonite[coords[0]][coords[1]] = 0
+                            pygame.draw.rect(screen, [0, 0, 255],
+                                             pygame.Rect(coords[1] * TILE_SIZE, coords[0] * TILE_SIZE, TILE_SIZE,
+                                                         TILE_SIZE), 0)
+                            draw_bots(screen, robot_positions)
+                            draw_lines(screen, height, width)
                     elif event.button == 3:
                         coords = get_grid_coords_from_mouse(event.pos[0], event.pos[1], height, width)
                         terrain[coords[0]][coords[1]] = True
@@ -64,9 +65,9 @@ def create_pygame_earth_editor(height, width):
                     elif event.button == 4:
                         coords = get_grid_coords_from_mouse(event.pos[0], event.pos[1], height, width)
                         terrain[coords[0]][coords[1]] = True
-                        if karbonite[coords[0]][coords[1]] < 40:
+                        if karbonite[coords[0]][coords[1]] < 45:
                             karbonite[coords[0]][coords[1]] += 5
-                        pygame.draw.rect(screen, [0, 200 - karbonite[coords[0]][coords[1]] * 5, 0],
+                        pygame.draw.rect(screen, [0, 200 - karbonite[coords[0]][coords[1]] * 4, 0],
                                          pygame.Rect(coords[1] * TILE_SIZE, coords[0] * TILE_SIZE, TILE_SIZE,
                                                      TILE_SIZE), 0)
                         draw_bots(screen, robot_positions)
@@ -85,7 +86,7 @@ def create_pygame_earth_editor(height, width):
                     if event.key == pygame.K_r:
                         pos = pygame.mouse.get_pos()
                         coords = get_grid_coords_from_mouse(pos[0], pos[1], height, width)
-                        if [*coords, 0] and [*coords, 1] not in robot_positions:
+                        if [*coords, 1] not in robot_positions and [*coords, 0] not in robot_positions:
                             terrain[coords[0]][coords[1]] = True
                             pygame.draw.rect(screen, [0, 200 - karbonite[coords[0]][coords[1]] * 5, 0],
                                              pygame.Rect(coords[1] * TILE_SIZE, coords[0] * TILE_SIZE, TILE_SIZE,
@@ -96,7 +97,7 @@ def create_pygame_earth_editor(height, width):
                     elif event.key == pygame.K_b:
                         pos = pygame.mouse.get_pos()
                         coords = get_grid_coords_from_mouse(pos[0], pos[1], height, width)
-                        if [*coords, 1] and [*coords, 0] not in robot_positions:
+                        if [*coords, 1] not in robot_positions and [*coords, 0] not in robot_positions:
                             terrain[coords[0]][coords[1]] = True
                             pygame.draw.rect(screen, [0, 200 - karbonite[coords[0]][coords[1]] * 5, 0],
                                              pygame.Rect(coords[1] * TILE_SIZE, coords[0] * TILE_SIZE, TILE_SIZE,
@@ -140,35 +141,6 @@ def create_pygame_mars_editor(height, width):
                                          pygame.Rect(coords[1] * TILE_SIZE, coords[0] * TILE_SIZE, TILE_SIZE,
                                                      TILE_SIZE), 0)
                         draw_lines(screen, height, width)
-                    elif event.button == 4:
-                        coords = get_grid_coords_from_mouse(event.pos[0], event.pos[1], height, width)
-                        terrain[coords[0]][coords[1]] = True
-                        if karbonite_tiles[coords[0]][coords[1]] < 40:
-                            karbonite_tiles[coords[0]][coords[1]] += 5
-                        color = [
-                            max(231 - karbonite_tiles[coords[0]][coords[1]] * 5, 0),
-                            max(125 - karbonite_tiles[coords[0]][coords[1]] * 5, 0),
-                            max(17 - karbonite_tiles[coords[0]][coords[1]] * 5, 0)
-                        ]
-                        pygame.draw.rect(screen, color,
-                                         pygame.Rect(coords[1] * TILE_SIZE, coords[0] * TILE_SIZE, TILE_SIZE,
-                                                     TILE_SIZE), 0)
-                        draw_lines(screen, height, width)
-                    elif event.button == 5:
-                        coords = get_grid_coords_from_mouse(event.pos[0], event.pos[1], height, width)
-                        terrain[coords[0]][coords[1]] = True
-                        if karbonite_tiles[coords[0]][coords[1]] >= 5:
-                            karbonite_tiles[coords[0]][coords[1]] -= 5
-                        color = [
-                            max(231 - karbonite_tiles[coords[0]][coords[1]] * 5, 0),
-                            max(125 - karbonite_tiles[coords[0]][coords[1]] * 5, 0),
-                            max(17 - karbonite_tiles[coords[0]][coords[1]] * 5, 0)
-                        ]
-                        pygame.draw.rect(screen, color,
-                                         pygame.Rect(coords[1] * TILE_SIZE, coords[0] * TILE_SIZE, TILE_SIZE,
-                                                     TILE_SIZE), 0)
-                        draw_lines(screen, height, width)
-
     except StopIteration:
         pygame.quit()
         return terrain, karbonite_tiles
