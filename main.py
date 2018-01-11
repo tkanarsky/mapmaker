@@ -35,53 +35,6 @@ def generate_strike_pattern(seed, width, height):
 def json_bot_list(bots, earth_height):
     bot_list = []
     for x, i in enumerate(bots):
-        # bot_dict = {
-        #                "id": x,
-        #                "team": "Red" if i[2] == 0 else "Blue",
-        #                "level": 0,
-        #                "unit_type": "Worker",
-        #                "location": {
-        #                    "OnMap": {
-        #                        "planet": "Earth",
-        #                        "x": i[1],
-        #                        "y": earth_height - i[0] - 1
-        #                    }
-        #                },
-        #                "health": 100,
-        #                "max_health": 100,
-        #                "vision_range": 50,
-        #                "damage": 0,
-        #                "attack_range": 0,
-        #                "movement_heat": 0,
-        #                "attack_heat": 0,
-        #                "movement_cooldown": 20,
-        #                "attack_cooldown": 0,
-        #                "is_ability_unlocked": True,
-        #                "ability_heat": 0,
-        #                "ability_cooldown": 500,
-        #                "ability_range": 2,
-        #                "has_worker_acted": False,
-        #                "build_health": 5,
-        #                "repair_health": 10,
-        #                "harvest_amount": 3,
-        #                "defense": 5,
-        #                "cannot_attack_range": 10,
-        #                "countdown": 0,
-        #                "max_countdown": 5,
-        #                "target_location": None,
-        #                "self_heal_amount": 1,
-        #                "is_built": False,
-        #                "max_capacity": 8,
-        #                "garrison": [
-        #
-        #                ],
-        #                "factory_unit_type": None,
-        #                "factory_rounds_left": None,
-        #                "factory_max_rounds_left": 5,
-        #                "is_used": False,
-        #                "blast_damage": 50,
-        #                "travel_time_decrease": 0
-        #            },
         bot_dict = {
                 "ability_cooldown": 500,
                 "ability_heat": 0,
@@ -165,16 +118,16 @@ def create_json(seed, earth_height, earth_width, earth_terrain, earth_karb, bots
             "height": earth_height,
             "width": earth_width,
             "initial_units": bots,
-            "is_passable_terrain": [list(i)[::-1] for i in zip(*earth_terrain)], # I love python (transposing array)!
-            "initial_karbonite": [list(i)[::-1] for i in zip(*earth_karb)],
+            "is_passable_terrain": earth_terrain[::-1],
+            "initial_karbonite": earth_karb[::-1],
         },
         "mars_map": {
             "planet": "Mars",
             "height": mars_height,
             "width": mars_width,
             "initial_units": [],
-            "is_passable_terrain": [list(i)[::-1] for i in zip(*mars_terrain)],
-            "initial_karbonite": [list(i)[::-1] for i in zip(*mars_karb)]
+            "is_passable_terrain": mars_terrain[::-1],
+            "initial_karbonite": mars_karb[::-1],
         },
         "asteroids": {
             "pattern": asteroids
