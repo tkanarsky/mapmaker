@@ -57,6 +57,9 @@ def create_pygame_earth_editor(height, width):
                         coords = get_grid_coords_from_mouse(event.pos[0], event.pos[1], height, width)
                         terrain[coords[0]][coords[1]] = True
                         karbonite[coords[0]][coords[1]] = 0
+                        if list(coords) in [x[:2] for x in robot_positions]:
+                            idx = [x[:2] for x in robot_positions].index(list(coords))
+                            robot_positions.pop(idx)
                         pygame.draw.rect(screen, [0, 200, 0],
                                          pygame.Rect(coords[1] * TILE_SIZE, coords[0] * TILE_SIZE, TILE_SIZE,
                                                      TILE_SIZE), 0)
