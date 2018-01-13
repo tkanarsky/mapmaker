@@ -199,8 +199,7 @@ if __name__ == "__main__":
         filename = input("Almost done! Give your map a name: ")
         filename += ".bc18map"
         print("Creating json...")
-        json_struct = create_json(seed, height, width, earth_terrain, earth_karbonite, bots, width,
-                                  height, mars_terrain, mars_karbonite, asteroids, orbit_params)
+        json_struct = create_json(seed, width, height earth_terrain, earth_karbonite, bots, mars_terrain, mars_karbonite, asteroids, orbit_params)
         print("Created json!")
         dump(json_struct, open(filename, "w"))
 
