@@ -109,8 +109,7 @@ def json_orbit(amplitude, period, center):
     }
 
 
-def create_json(seed, width, height, earth_terrain, earth_karb, bots, mars_terrain,
-                mars_karb, asteroids, orbit):
+def create_json(seed, width, height, earth_terrain, earth_karb, bots, mars_terrain, mars_karb, asteroids, orbit):
     return {
         "seed": seed,
         "earth_map": {
