@@ -41,8 +41,16 @@ def create_pygame_earth_editor(height, width):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     raise StopIteration
-                elif event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == 1:
+                elif 1 in pygame.mouse.get_pressed():
+                    try:
+                        eventpos = event.pos
+                        eventbutton = event.button
+                    except:
+                        try:
+                            eventbutton = list(event.buttons).index(1)+1
+                        except:
+                            continue
+                    if eventbutton == 1:
                         coords = get_grid_coords_from_mouse(event.pos[0], event.pos[1], height, width)
                         if list(coords) not in [x[:2] for x in robot_positions]:
 
@@ -53,7 +61,7 @@ def create_pygame_earth_editor(height, width):
                                                          TILE_SIZE), 0)
                             draw_bots(screen, robot_positions)
                             draw_lines(screen, height, width)
-                    elif event.button == 3:
+                    elif eventbutton == 3:
                         coords = get_grid_coords_from_mouse(event.pos[0], event.pos[1], height, width)
                         terrain[coords[0]][coords[1]] = True
                         karbonite[coords[0]][coords[1]] = 0
@@ -65,7 +73,8 @@ def create_pygame_earth_editor(height, width):
                                                      TILE_SIZE), 0)
                         draw_bots(screen, robot_positions)
                         draw_lines(screen, height, width)
-                    elif event.button == 4:
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 4:
                         coords = get_grid_coords_from_mouse(event.pos[0], event.pos[1], height, width)
                         terrain[coords[0]][coords[1]] = True
                         if karbonite[coords[0]][coords[1]] < 45:
