@@ -42,15 +42,15 @@ def create_pygame_earth_editor(height, width):
                 if event.type == pygame.QUIT:
                     raise StopIteration
                 elif 1 in pygame.mouse.get_pressed():
-                    try:
-                        eventpos = event.pos
-                        eventbutton = event.button
+                    try: # try-catch necessary for off-screen mouse holds
+                        event_pos = event.pos
+                        event_button = event.button
                     except:
                         try:
-                            eventbutton = list(event.buttons).index(1)+1
+                            event_button = list(event.buttons).index(1)+1
                         except:
                             continue
-                    if eventbutton == 1:
+                    if event_button == 1:
                         coords = get_grid_coords_from_mouse(event.pos[0], event.pos[1], height, width)
                         if list(coords) not in [x[:2] for x in robot_positions]:
 
@@ -61,7 +61,7 @@ def create_pygame_earth_editor(height, width):
                                                          TILE_SIZE), 0)
                             draw_bots(screen, robot_positions)
                             draw_lines(screen, height, width)
-                    elif eventbutton == 3:
+                    elif event_button == 3:
                         coords = get_grid_coords_from_mouse(event.pos[0], event.pos[1], height, width)
                         terrain[coords[0]][coords[1]] = True
                         karbonite[coords[0]][coords[1]] = 0
@@ -136,8 +136,16 @@ def create_pygame_mars_editor(height, width):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     raise StopIteration
-                elif event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == 1:
+                elif 1 in pygame.mouse.get_pressed():
+                    try: # try-catch necessary for off-screen mouse holds
+                        event_pos = event.pos
+                        event_button = event.button
+                    except:
+                        try:
+                            event_button = list(event.buttons).index(1)+1
+                        except:
+                            continue
+                    if event_button == 1:
                         coords = get_grid_coords_from_mouse(event.pos[0], event.pos[1], height, width)
                         terrain[coords[0]][coords[1]] = False
                         karbonite_tiles[coords[0]][coords[1]] = 0
@@ -145,7 +153,7 @@ def create_pygame_mars_editor(height, width):
                                          pygame.Rect(coords[1] * TILE_SIZE, coords[0] * TILE_SIZE, TILE_SIZE,
                                                      TILE_SIZE), 0)
                         draw_lines(screen, height, width)
-                    elif event.button == 3:
+                    elif event_button == 3:
                         coords = get_grid_coords_from_mouse(event.pos[0], event.pos[1], height, width)
                         terrain[coords[0]][coords[1]] = True
                         karbonite_tiles[coords[0]][coords[1]] = 0
