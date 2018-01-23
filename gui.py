@@ -176,6 +176,50 @@ def create_pygame_mars_editor(height, width):
                                          pygame.Rect(coords[1] * TILE_SIZE, coords[0] * TILE_SIZE, TILE_SIZE,
                                                      TILE_SIZE), 0)
                         draw_lines(screen, height, width)
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 4:
+                        coords = get_grid_coords_from_mouse(event.pos[0], event.pos[1], height, width)
+                        terrain[coords[0]][coords[1]] = True
+                        if karbonite_tiles[coords[0]][coords[1]] < 45:
+                            karbonite_tiles[coords[0]][coords[1]] += 5
+                        color = [
+                            max(231 - karbonite_tiles[coords[0]][coords[1]] * 5, 0),
+                            max(125 - karbonite_tiles[coords[0]][coords[1]] * 5, 0),
+                            max(7 - karbonite_tiles[coords[0]][coords[1]] * 5, 0),
+                        ]
+                        pygame.draw.rect(screen, color,
+                                         pygame.Rect(coords[1] * TILE_SIZE, coords[0] * TILE_SIZE, TILE_SIZE,
+                                                     TILE_SIZE), 0)
+                        draw_lines(screen, height, width)
+                    elif event.button == 5:
+                        coords = get_grid_coords_from_mouse(event.pos[0], event.pos[1], height, width)
+                        terrain[coords[0]][coords[1]] = True
+                        if karbonite_tiles[coords[0]][coords[1]] >= 5:
+                            karbonite_tiles[coords[0]][coords[1]] -= 5
+                        color = [
+                            max(231 - karbonite_tiles[coords[0]][coords[1]] * 5, 0),
+                            max(125 - karbonite_tiles[coords[0]][coords[1]] * 5, 0),
+                            max(7 - karbonite_tiles[coords[0]][coords[1]] * 5, 0),
+                        ]
+                        pygame.draw.rect(screen, color,
+                                         pygame.Rect(coords[1] * TILE_SIZE, coords[0] * TILE_SIZE, TILE_SIZE,
+                                                     TILE_SIZE), 0)
+                        draw_lines(screen, height, width)
+                elif event.type == pygame.KEYDOWN:
+                    if event.key in number_keys:
+                        pos = pygame.mouse.get_pos()
+                        coords = get_grid_coords_from_mouse(pos[0], pos[1], height, width)
+                        terrain[coords[0]][coords[1]] = True
+                        karbonite_tiles[coords[0]][coords[1]] = 5*(number_keys.index(event.key)//2)
+                        color = [
+                            max(231 - karbonite_tiles[coords[0]][coords[1]] * 5, 0),
+                            max(125 - karbonite_tiles[coords[0]][coords[1]] * 5, 0),
+                            max(7 - karbonite_tiles[coords[0]][coords[1]] * 5, 0),
+                        ]
+                        pygame.draw.rect(screen, color,
+                                         pygame.Rect(coords[1] * TILE_SIZE, coords[0] * TILE_SIZE, TILE_SIZE,
+                                                     TILE_SIZE), 0)
+                        draw_lines(screen, height, width)
     except StopIteration:
         pygame.quit()
         return terrain, karbonite_tiles
