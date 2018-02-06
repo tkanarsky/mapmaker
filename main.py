@@ -174,7 +174,7 @@ if __name__ == "__main__":
 
         mars_terrain, mars_karbonite = gui.create_pygame_mars_editor(height, width)
         print("Generating asteroid pattern...")
-        asteroid_list = generate_strike_pattern(seed, height, width)
+        asteroid_list = generate_strike_pattern(seed, width, height)
 
         valid = False
         while not valid:

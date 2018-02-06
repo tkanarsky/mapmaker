@@ -1,7 +1,6 @@
 import pygame
 
-TILE_SIZE = 20
-
+TILE_SIZE = 15
 
 def get_grid_coords_from_mouse(x, y, height, width):
     grid_col = int((x / (width * TILE_SIZE)) * width)
